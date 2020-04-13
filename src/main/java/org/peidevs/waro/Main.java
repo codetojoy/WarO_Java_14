@@ -12,21 +12,22 @@ import static java.util.Comparator.comparing;
 // This is compile-time configuration
 
 public class Main {
-    
+
     public static void main(String... args) {
-        // read configuration 
+        // read configuration
         var configService = new ConfigService();
+        int numPlayers = configService.getNumPlayers();
         int numCards = configService.getNumCards();
         int numGames = configService.getNumGames();
-        boolean isVerbose = configService.isVerbose();        
+        boolean isVerbose = configService.isVerbose();
         var players = configService.getPlayers();
-        
+
         // play the games
-        var tourney = new Tourney(numCards, numGames, isVerbose);
-        
+        var tourney = new Tourney(numPlayers, numCards, numGames, isVerbose);
+
         tourney.apply(players)
                .stream()
                .sorted(comparing(Player::getNumGamesWon).reversed())
-               .forEach(p -> System.out.println(p.toString(numGames)));        
+               .forEach(p -> System.out.println(p.toString(numGames)));
     }
 }
